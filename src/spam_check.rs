@@ -10,7 +10,7 @@ lazy_static! {
         ).unwrap()
     };
 }
-static SPAM_PROB_THRESHOLD: u8 = 70;
+static SPAM_PROB_THRESHOLD: u8 = 85;
 
 #[derive(Deserialize)]
 #[serde(crate = "rocket::serde")]
@@ -27,7 +27,7 @@ fn spam_check(task: Json<Task<'_>>) -> Value {
     let mut ham = 100 - spam;
 
     // Short messages are mostly ham
-    if spam > ham && task.text.len() < 20 {
+    if spam > ham && task.text.len() < 30 {
         spam -= 25;
         ham += 25;
     }
