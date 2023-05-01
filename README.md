@@ -67,6 +67,43 @@ print("Is spam:", result["is_spam"])
 print("Spam probability:", result["spam_probability"])
 ```
 
+### Go
+
+```go
+package main
+
+import (
+	"bytes"
+	"encoding/json"
+	"net/http"
+)
+
+func main() {
+	url := "http://localhost:8000/spam_check"
+	data := map[string]string{"text": "subscribe to my youtube channel"}
+	jsonData, err := json.Marshal(data)
+	if err != nil {
+		panic(err)
+	}
+
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
+	if err != nil {
+		panic(err)
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	// Do something with the response if needed
+}
+```
+
 ### Rust
 
 ```rust
