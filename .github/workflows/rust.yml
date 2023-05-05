@@ -1,0 +1,45 @@
+name: build and release
+
+on:
+  push:
+    branches: [master]
+  release:
+    types: [created]
+
+env:
+  RUST_BACKTRACE: full
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+
+      - name: Build
+        run: cargo build --release --verbose
+
+      - name: Archive binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: tg_antispam_rs
+          path: target/release/tg_antispam_rs
+
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        if: github.event_name == 'release'
+        with:
+          files: target/release/tg_antispam_rs
+          tag_name: ${{ github.ref }}
+          name: Release ${{ github.ref }}
+          body: ${{ github.event.release.body }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
