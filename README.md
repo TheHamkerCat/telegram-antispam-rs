@@ -8,7 +8,6 @@
 - The dataset provided may contain some NSFW texts or personal info, it's not thoroughly checked.
 - I've included a docker-based example, but you can run it without docker as well.
 - `profanity` in response is only there to maintain backwards compatibility for ARQ users, it always returns `false`
-
 ## Installation:
 I would suggest using docker compose for this, but it's upto you!
 ### With Docker compose
@@ -51,8 +50,9 @@ content-type: application/json
   "spam_probability": 99
 }
 ```
+### A Go port for the same API can be found [here](https://github.com/axrav/AntispamAPI)
 
-## Usage example:
+## Usage examples:
 ### Python
 
 ```python
